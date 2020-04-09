@@ -1,0 +1,11 @@
+id,description
+UPDATE_OWN_PASSWORD,"Able to update own properties"
+READ_AUTHENTICATION,"Able to read authentication data"
+READ_OWN_TASKS,"Able to read own tasks"
+CREATE_OWN_TASKS,"Able to create own tasks"
+UPDATE_OWN_TASKS,"Able to update own tasks"
+DELETE_OWN_TASKS,"Able to delete own tasks"
+READ_ALL_PROFILES,"Able to read all profiles"
+READ_OWN_PROFILE,"Able to read own profile"
+UPDATE_OWN_PROFILE,"Able to update own profile"
+DELETE_OWN_PROFILE,"Able to delete own profile"
