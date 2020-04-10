@@ -18,11 +18,16 @@ public class UserDetailsImpl implements UserDetails {
 
     private Role role;
 
-    private List<GrantedAuthority> authorities;
+    private List<? extends GrantedAuthority> authorities;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
+    }
+
+    public UserDetailsImpl setAuthorities(List<? extends GrantedAuthority> authorities) {
+        this.authorities = authorities;
+        return this;
     }
 
     public UUID getId() {

@@ -14,6 +14,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.TimeZone;
+import java.util.UUID;
 
 @Component
 public class JwtUtils {
@@ -24,6 +25,7 @@ public class JwtUtils {
     private Algorithm algorithm;
     private JWTVerifier verifier;
     private final String EXP_CLAIM_NAME = "exp";
+    private final String ID_CLAIM_NAME = "id";
 
     @PostConstruct
     public void init() {
@@ -43,12 +45,12 @@ public class JwtUtils {
         return decode(token).getSubject();
     }
 
-    public String generateToken(String sub, LocalDateTime expiresAt) {
-        String token = JWT.create()
+    public String generateToken(UUID id, String sub, LocalDateTime expiresAt) {
+        return JWT.create()
                 .withSubject(sub)
                 .withClaim(EXP_CLAIM_NAME, Timestamp.valueOf(expiresAt))
+                .withClaim(ID_CLAIM_NAME, id.toString())
                 .sign(algorithm);
-        return token;
     }
 
     public LocalDateTime getExp(String token) {

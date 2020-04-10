@@ -1,6 +1,8 @@
 package com.nonfallable.taskKnight.security.permissions;
 
-public class Permission {
+import org.springframework.security.core.GrantedAuthority;
+
+public class Permission implements GrantedAuthority {
 
     private String id;
     private String description;
@@ -21,5 +23,10 @@ public class Permission {
     public Permission setDescription(String description) {
         this.description = description;
         return this;
+    }
+
+    @Override
+    public String getAuthority() {
+        return id;
     }
 }
