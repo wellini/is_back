@@ -1,0 +1,26 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: Alexander Plotnikov <i4iksy@yahoo.com>
+      changes:
+        - createTable:
+            tableName: profile
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: email
+                  type: varchar(64)
+              - column:
+                  name: name
+                  type: varchar(64)
+              - column:
+                  name: password
+                  type: varchar(64)
+              - column:
+                  name: role
+                  type: varchar(20)

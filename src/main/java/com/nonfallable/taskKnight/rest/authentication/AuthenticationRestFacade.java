@@ -5,6 +5,7 @@ import com.nonfallable.taskKnight.repositories.ProfileRepository;
 import com.nonfallable.taskKnight.rest.authentication.dto.AuthenticationRequestDTO;
 import com.nonfallable.taskKnight.rest.authentication.dto.AuthenticationResponseDTO;
 import com.nonfallable.taskKnight.rest.authentication.exceptions.BadCredentialsSecurityException;
+import com.nonfallable.taskKnight.security.AccessToken;
 import com.nonfallable.taskKnight.security.JwtUtils;
 import com.nonfallable.taskKnight.security.converters.ProfileToUserDetailsConverter;
 import com.nonfallable.taskKnight.security.permissions.Permission;
@@ -18,18 +19,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-@RestController
-public class AuthenticationController {
+@Component
+public class AuthenticationRestFacade {
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -46,35 +43,31 @@ public class AuthenticationController {
     @Autowired
     private JwtUtils jwtUtils;
 
-    @GetMapping("/1.0/auth")
     public ResponseEntity<AuthenticationResponseDTO> auth(HttpServletRequest request) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = ((UserDetails) authentication.getPrincipal()).getUsername();
         Profile profile = profileRepository.findByEmail(email).get();
-        String token = request.getHeader("Authorization");
+        AccessToken token = jwtUtils.decode(request.getHeader("Authorization"));
+
         AuthenticationResponseDTO responseDTO = createAuthenticationResponseDTO(
                 profile.getId(),
                 profile.getEmail(),
-                jwtUtils.getExp(token).format(DateTimeUtil.DATE_TIME_FORMATTER),
                 token,
                 permissionsService.getPermissionsByRole(profile.getRole())
         );
         return ResponseEntity.ok(responseDTO);
     }
 
-    @PostMapping("/1.0/login")
-    public ResponseEntity<AuthenticationResponseDTO> login(@RequestBody AuthenticationRequestDTO requestDTO) {
+    public ResponseEntity<AuthenticationResponseDTO> login(AuthenticationRequestDTO requestDTO) {
         Profile userProfile = profileRepository.findByEmail(requestDTO.getLogin()).get();
         List<Permission> permissions = permissionsService.getPermissionsByRole(userProfile.getRole());
 
         authenticate(requestDTO.getLogin(), requestDTO.getPassword(), permissions);
+        AccessToken token = jwtUtils.generateToken(userProfile);
 
-        UserDetails userDetails = profileToUserDetailsConverter.toUserDetails(userProfile);
-        String token = jwtUtils.generateToken(userProfile.getId(), userDetails.getUsername(), LocalDateTime.now().plusDays(10));
         AuthenticationResponseDTO responseDTO = createAuthenticationResponseDTO(
                 userProfile.getId(),
                 userProfile.getEmail(),
-                jwtUtils.getExp(token).format(DateTimeUtil.DATE_TIME_FORMATTER),
                 token,
                 permissions
         );
@@ -84,15 +77,14 @@ public class AuthenticationController {
     private AuthenticationResponseDTO createAuthenticationResponseDTO(
             UUID id,
             String login,
-            String expiresAt,
-            String accessToken,
+            AccessToken accessToken,
             List<Permission> permissions
-    ){
+    ) {
         return new AuthenticationResponseDTO()
                 .setId(id)
                 .setLogin(login)
-                .setExpires(expiresAt)
-                .setAccessToken(accessToken)
+                .setExpires(accessToken.getExpiredAt().format(DateTimeUtil.DATE_TIME_FORMATTER))
+                .setAccessToken(accessToken.getToken())
                 .setPermissions(permissions);
     }
 
