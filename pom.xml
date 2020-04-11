@@ -18,6 +18,9 @@
 		<java.version>1.8</java.version>
 		<jwt.secret>secret</jwt.secret>
 		<jwt.lifeTimeInDays>10</jwt.lifeTimeInDays>
+		<docker.env.postgres.jdbc.url>jdbc:postgresql://localhost:5432/test</docker.env.postgres.jdbc.url>
+		<docker.env.postgres.user>test</docker.env.postgres.user>
+		<docker.env.postgres.password>test</docker.env.postgres.password>
 	</properties>
 
 	<dependencies>

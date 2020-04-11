@@ -4,9 +4,9 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/test
-    username: test
-    password: test
+    url: @docker.env.postgres.jdbc.url@
+    username: @docker.env.postgres.user@
+    password: @docker.env.postgres.password@
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
