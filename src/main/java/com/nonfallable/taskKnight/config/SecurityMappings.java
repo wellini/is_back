@@ -12,7 +12,7 @@ public class SecurityMappings extends AbstractHttpConfigurer<SecurityMappings, H
                 // Authentication & authorization
                 .antMatchers("/1.0/login").permitAll()
                 .antMatchers("/1.0/registration").permitAll()
-                .antMatchers("/1.0/registration/confirm/**").permitAll()
+                .antMatchers("/1.0/registration/confirm/**").authenticated()
                 .antMatchers("/1.0/logout").permitAll()
                 .antMatchers("/1.0./change-password").hasAuthority("UPDATE_OWN_PASSWORD")
                 .antMatchers("/1.0/change-password/caonfirm/**").hasAuthority("UPDATE_OWN_PASSWORD")

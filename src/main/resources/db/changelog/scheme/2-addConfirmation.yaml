@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2
+      author: Alexander Plotnikov <i4iksy@yahoo.com>
+      changes:
+        - createTable:
+            tableName: confirmation_token
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: code
+                  type: varchar(8)
+              - column:
+                  name: created_at
+                  type: datetime
+              - column:
+                  name: subject
+                  type: varchar(64)
+              - column:
+                  name: type
+                  type: varchar(32)
+        - addColumn:
+            tableName: profile
+            columns:
+              - column:
+                  name: status
+                  type: varchar(32)

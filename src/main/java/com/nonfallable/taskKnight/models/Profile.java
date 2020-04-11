@@ -26,7 +26,19 @@ public class Profile {
 
     @JsonIgnore
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private Role role = Role.USER;
+
+    @Enumerated(EnumType.STRING)
+    private ProfileStatus status = ProfileStatus.CREATED;
+
+    public ProfileStatus getStatus() {
+        return status;
+    }
+
+    public Profile setStatus(ProfileStatus status) {
+        this.status = status;
+        return this;
+    }
 
     public UUID getId() {
         return id;
