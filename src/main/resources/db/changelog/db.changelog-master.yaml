@@ -3,3 +3,5 @@ databaseChangeLog:
       file: db/changelog/scheme/1-initial.yaml
   - include:
       file: db/changelog/scheme/2-addConfirmation.yaml
+  - include:
+      file: db/changelog/scheme/3-addPasswordChanging.yml
