@@ -1,18 +1,17 @@
 package com.nonfallable.taskKnight.rest.authentication;
 
-import com.nonfallable.taskKnight.exceptions.TraceKeeperException;
 import com.nonfallable.taskKnight.models.ConfirmationToken;
 import com.nonfallable.taskKnight.models.ConfirmationTokenType;
 import com.nonfallable.taskKnight.models.Profile;
 import com.nonfallable.taskKnight.models.ProfileStatus;
 import com.nonfallable.taskKnight.repositories.ProfileRepository;
 import com.nonfallable.taskKnight.rest.authentication.converters.RegistrationRequestToProfileConverter;
-import com.nonfallable.taskKnight.rest.authentication.dto.RegistrationConfirmationRequestDTO;
-import com.nonfallable.taskKnight.rest.authentication.dto.RegistrationConfirmationResponseDTO;
+import com.nonfallable.taskKnight.rest.authentication.dto.ConfirmationCodeRequestDTO;
+import com.nonfallable.taskKnight.rest.authentication.dto.ConfirmationCodeResponseDTO;
 import com.nonfallable.taskKnight.rest.authentication.dto.RegistrationRequestDTO;
 import com.nonfallable.taskKnight.rest.authentication.dto.RegistrationResponseDTO;
 import com.nonfallable.taskKnight.rest.authentication.exceptions.ProfileWithSameLoginExistsException;
-import com.nonfallable.taskKnight.rest.authentication.validators.RegistrationConfirmationRequestValidator;
+import com.nonfallable.taskKnight.rest.authentication.validators.ConfirmationCodeRequestRequestValidator;
 import com.nonfallable.taskKnight.rest.authentication.validators.RegistrationRequestValidator;
 import com.nonfallable.taskKnight.security.AccessToken;
 import com.nonfallable.taskKnight.security.JwtUtils;
@@ -52,7 +51,7 @@ public class RegistrationRestFacade {
     private RegistrationRequestValidator registrationRequestValidator;
 
     @Autowired
-    private RegistrationConfirmationRequestValidator registrationConfirmationRequestValidator;
+    private ConfirmationCodeRequestRequestValidator confirmationCodeRequestRequestValidator;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -86,13 +85,13 @@ public class RegistrationRestFacade {
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public ResponseEntity<RegistrationConfirmationResponseDTO> confirmRegistration(UUID token, RegistrationConfirmationRequestDTO requestDTO) {
-        registrationConfirmationRequestValidator.validate(requestDTO);
+    public ResponseEntity<ConfirmationCodeResponseDTO> confirmRegistration(UUID token, ConfirmationCodeRequestDTO requestDTO) {
+        confirmationCodeRequestRequestValidator.validate(requestDTO);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         confirmationTokenService.confirm(token, requestDTO.getCode(), userDetails.getUsername(), ConfirmationTokenType.REGISTRATION);
         Profile profile = profileRepository.findByEmail(userDetails.getUsername()).get();
         profileRepository.save(profile.setStatus(ProfileStatus.ACTIVATED));
-        return ok(new RegistrationConfirmationResponseDTO().setMessage("OK"));
+        return ok(new ConfirmationCodeResponseDTO().setMessage("OK"));
     }
 }

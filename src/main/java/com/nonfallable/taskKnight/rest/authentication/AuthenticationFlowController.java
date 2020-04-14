@@ -2,8 +2,10 @@ package com.nonfallable.taskKnight.rest.authentication;
 
 import com.nonfallable.taskKnight.rest.authentication.dto.AuthenticationRequestDTO;
 import com.nonfallable.taskKnight.rest.authentication.dto.AuthenticationResponseDTO;
-import com.nonfallable.taskKnight.rest.authentication.dto.RegistrationConfirmationRequestDTO;
-import com.nonfallable.taskKnight.rest.authentication.dto.RegistrationConfirmationResponseDTO;
+import com.nonfallable.taskKnight.rest.authentication.dto.ChangePasswordRequestDTO;
+import com.nonfallable.taskKnight.rest.authentication.dto.ChangePasswordResponseDTO;
+import com.nonfallable.taskKnight.rest.authentication.dto.ConfirmationCodeRequestDTO;
+import com.nonfallable.taskKnight.rest.authentication.dto.ConfirmationCodeResponseDTO;
 import com.nonfallable.taskKnight.rest.authentication.dto.RegistrationRequestDTO;
 import com.nonfallable.taskKnight.rest.authentication.dto.RegistrationResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,9 @@ public class AuthenticationFlowController {
     @Autowired
     private RegistrationRestFacade registrationRestFacade;
 
+    @Autowired
+    private ChangePasswordRestFacade changePasswordRestFacade;
+
     @GetMapping("/1.0/auth")
     public ResponseEntity<AuthenticationResponseDTO> auth(HttpServletRequest request) {
         return authenticationRestFacade.auth(request);
@@ -42,7 +47,17 @@ public class AuthenticationFlowController {
     }
 
     @PostMapping("/1.0/registration/confirm/{token}")
-    public ResponseEntity<RegistrationConfirmationResponseDTO> confirmRegistration(@PathVariable UUID token, @RequestBody RegistrationConfirmationRequestDTO requestDTO) {
+    public ResponseEntity<ConfirmationCodeResponseDTO> confirmRegistration(@PathVariable UUID token, @RequestBody ConfirmationCodeRequestDTO requestDTO) {
         return registrationRestFacade.confirmRegistration(token, requestDTO);
+    }
+
+    @PostMapping("/1.0/change-password")
+    public ResponseEntity<ChangePasswordResponseDTO> changePassword(@RequestBody ChangePasswordRequestDTO requestDTO) {
+        return changePasswordRestFacade.changePassword(requestDTO);
+    }
+
+    @PostMapping("/1.0/change-password/confirm/{token}")
+    public ResponseEntity<ConfirmationCodeResponseDTO> confirmPasswordChanging(@PathVariable UUID token, @RequestBody ConfirmationCodeRequestDTO requestDTO) {
+        return changePasswordRestFacade.confirmPasswordChanging(token, requestDTO);
     }
 }

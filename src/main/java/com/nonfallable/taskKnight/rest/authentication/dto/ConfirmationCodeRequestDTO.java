@@ -1,6 +1,6 @@
 package com.nonfallable.taskKnight.rest.authentication.dto;
 
-public class RegistrationConfirmationRequestDTO {
+public class ConfirmationCodeRequestDTO {
 
     private String code;
 
@@ -8,7 +8,7 @@ public class RegistrationConfirmationRequestDTO {
         return code;
     }
 
-    public RegistrationConfirmationRequestDTO setCode(String code) {
+    public ConfirmationCodeRequestDTO setCode(String code) {
         this.code = code;
         return this;
     }
