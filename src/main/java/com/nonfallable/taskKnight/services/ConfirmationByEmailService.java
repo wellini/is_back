@@ -16,18 +16,6 @@ public class ConfirmationByEmailService {
     @Value("${docker.env.mail.enable}")
     private boolean isMailingEnable;
 
-    @Value("${spring.mail.host}")
-    private String host;
-
-    @Value("${spring.mail.port}")
-    private String port;
-
-    @Value("${spring.mail.username}")
-    private String username;
-
-    @Value("${spring.mail.password}")
-    private String password;
-
     public void sendConfirmationCode(ConfirmationToken token, String to) {
         if(!isMailingEnable) return;
         SimpleMailMessage message = new SimpleMailMessage();
