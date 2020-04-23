@@ -27,9 +27,9 @@ public class ConfirmationTokenService {
         if(!confirmationToken.getSubject().equals(subject) || !confirmationToken.getType().equals(type))
             throw new ConfirmationTokenNotFoundException("Not found token " + id.toString());
         LocalDateTime expiredAt = confirmationToken.getCreatedAt().plus(confirmationToken.getType().getDuration());
+        if(LocalDateTime.now().isAfter(expiredAt)) throw new ConfirmationTokenNotFoundException("Not found token " + id.toString());
 
         confirmationTokenRepository.delete(confirmationToken);
-        if(LocalDateTime.now().isAfter(expiredAt)) throw new ConfirmationTokenNotFoundException("Not found token " + id.toString());
     }
 
     @Transactional

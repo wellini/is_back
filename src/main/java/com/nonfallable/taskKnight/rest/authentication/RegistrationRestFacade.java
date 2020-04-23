@@ -17,6 +17,7 @@ import com.nonfallable.taskKnight.security.AccessToken;
 import com.nonfallable.taskKnight.security.JwtUtils;
 import com.nonfallable.taskKnight.security.permissions.Permission;
 import com.nonfallable.taskKnight.security.permissions.PermissionsService;
+import com.nonfallable.taskKnight.services.ConfirmationByEmailService;
 import com.nonfallable.taskKnight.services.ConfirmationTokenService;
 import com.nonfallable.taskKnight.utils.DateTimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,29 +39,27 @@ import static org.springframework.http.ResponseEntity.ok;
 @Component
 public class RegistrationRestFacade {
 
-    @Autowired
     private ConfirmationTokenService confirmationTokenService;
-
-    @Autowired
     private ProfileRepository profileRepository;
-
-    @Autowired
     private RegistrationRequestToProfileConverter registrationRequestToProfileConverter;
-
-    @Autowired
     private RegistrationRequestValidator registrationRequestValidator;
-
-    @Autowired
     private ConfirmationCodeRequestRequestValidator confirmationCodeRequestRequestValidator;
-
-    @Autowired
     private AuthenticationManager authenticationManager;
-
-    @Autowired
     private PermissionsService permissionsService;
-
-    @Autowired
     private JwtUtils jwtUtils;
+    private ConfirmationByEmailService confirmationByEmailService;
+
+    public RegistrationRestFacade(ConfirmationTokenService confirmationTokenService, ProfileRepository profileRepository, RegistrationRequestToProfileConverter registrationRequestToProfileConverter, RegistrationRequestValidator registrationRequestValidator, ConfirmationCodeRequestRequestValidator confirmationCodeRequestRequestValidator, AuthenticationManager authenticationManager, PermissionsService permissionsService, JwtUtils jwtUtils, ConfirmationByEmailService confirmationByEmailService) {
+        this.confirmationTokenService = confirmationTokenService;
+        this.profileRepository = profileRepository;
+        this.registrationRequestToProfileConverter = registrationRequestToProfileConverter;
+        this.registrationRequestValidator = registrationRequestValidator;
+        this.confirmationCodeRequestRequestValidator = confirmationCodeRequestRequestValidator;
+        this.authenticationManager = authenticationManager;
+        this.permissionsService = permissionsService;
+        this.jwtUtils = jwtUtils;
+        this.confirmationByEmailService = confirmationByEmailService;
+    }
 
     @Transactional
     public ResponseEntity<RegistrationResponseDTO> registration(RegistrationRequestDTO requestDTO) {
@@ -68,6 +67,7 @@ public class RegistrationRestFacade {
         checkThatProfileDoesNotExist(requestDTO.getLogin());
         Profile profile = profileRepository.save(registrationRequestToProfileConverter.toDomain(requestDTO));
         ConfirmationToken confirmationToken = confirmationTokenService.createToken(profile.getEmail(), ConfirmationTokenType.REGISTRATION);
+        confirmationByEmailService.sendConfirmationCode(confirmationToken, profile.getEmail());
         AccessToken accessToken = jwtUtils.generateToken(profile);
         List<Permission> permissions = permissionsService.getPermissionsByRole(profile.getRole());
         SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(profile.getEmail(), profile.getPassword(), permissions));

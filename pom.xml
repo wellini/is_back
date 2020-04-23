@@ -21,6 +21,11 @@
 		<docker.env.postgres.jdbc.url>jdbc:postgresql://localhost:5432/test</docker.env.postgres.jdbc.url>
 		<docker.env.postgres.user>test</docker.env.postgres.user>
 		<docker.env.postgres.password>test</docker.env.postgres.password>
+		<docker.env.mail.enable>false</docker.env.mail.enable>
+		<docker.env.mail.host></docker.env.mail.host>
+		<docker.env.mail.port></docker.env.mail.port>
+		<docker.env.mail.user></docker.env.mail.user>
+		<docker.env.mail.password></docker.env.mail.password>
 	</properties>
 
 	<dependencies>
@@ -70,8 +75,11 @@
 			<artifactId>jackson-dataformat-csv</artifactId>
 			<version>2.10.3</version>
 		</dependency>
-
-
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+			<version>2.0.1.RELEASE</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

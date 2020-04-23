@@ -13,9 +13,9 @@ import com.nonfallable.taskKnight.rest.authentication.dto.ConfirmationCodeReques
 import com.nonfallable.taskKnight.rest.authentication.dto.ConfirmationCodeResponseDTO;
 import com.nonfallable.taskKnight.rest.authentication.validators.ChangePasswordRequestValidator;
 import com.nonfallable.taskKnight.rest.authentication.validators.ConfirmationCodeRequestRequestValidator;
+import com.nonfallable.taskKnight.services.ConfirmationByEmailService;
 import com.nonfallable.taskKnight.services.ConfirmationTokenService;
 import com.nonfallable.taskKnight.services.ProfileService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -28,26 +28,25 @@ import static org.springframework.http.ResponseEntity.ok;
 @Component
 public class ChangePasswordRestFacade {
 
-    @Autowired
     private ConfirmationTokenService confirmationTokenService;
-
-    @Autowired
     private ProfileService profileService;
-
-    @Autowired
     private ProfileRepository profileRepository;
-
-    @Autowired
     private ConfirmationCodeRequestRequestValidator confirmationCodeRequestRequestValidator;
-
-    @Autowired
     private ChangePasswordRequestValidator changePasswordRequestValidator;
-
-    @Autowired
     private PasswordChangingRepository passwordChangingRepository;
-
-    @Autowired
     private PasswordEncoder passwordEncoder;
+    private ConfirmationByEmailService confirmationByEmailService;
+
+    public ChangePasswordRestFacade(ConfirmationTokenService confirmationTokenService, ProfileService profileService, ProfileRepository profileRepository, ConfirmationCodeRequestRequestValidator confirmationCodeRequestRequestValidator, ChangePasswordRequestValidator changePasswordRequestValidator, PasswordChangingRepository passwordChangingRepository, PasswordEncoder passwordEncoder, ConfirmationByEmailService confirmationByEmailService) {
+        this.confirmationTokenService = confirmationTokenService;
+        this.profileService = profileService;
+        this.profileRepository = profileRepository;
+        this.confirmationCodeRequestRequestValidator = confirmationCodeRequestRequestValidator;
+        this.changePasswordRequestValidator = changePasswordRequestValidator;
+        this.passwordChangingRepository = passwordChangingRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.confirmationByEmailService = confirmationByEmailService;
+    }
 
     @Transactional
     public ResponseEntity<ChangePasswordResponseDTO> changePassword(ChangePasswordRequestDTO requestDTO) {
@@ -59,6 +58,8 @@ public class ChangePasswordRestFacade {
                         .setSubject(profile)
         );
         ConfirmationToken confirmationToken = confirmationTokenService.createToken(passwordChanging.getId().toString(), ConfirmationTokenType.CHANGE_PASSWORD);
+        confirmationByEmailService.sendConfirmationCode(confirmationToken, profile.getEmail());
+
         return ok(new ChangePasswordResponseDTO(confirmationToken.getId()));
     }
 
