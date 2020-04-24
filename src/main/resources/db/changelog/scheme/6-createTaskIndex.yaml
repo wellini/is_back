@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: 6
+      author: Alexander Plotnikov <i4iksy@yahoo.com>
+      changes:
+        - createIndex:
+            catalogName: public
+            indexName: idx_profile
+            tableName: task
+            schemaName: public
+            columns:
+              - column:
+                  name: profile_id

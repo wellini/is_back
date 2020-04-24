@@ -8,7 +8,7 @@ import com.nonfallable.taskKnight.rest.authentication.dto.ConfirmationCodeReques
 import com.nonfallable.taskKnight.rest.authentication.dto.ConfirmationCodeResponseDTO;
 import com.nonfallable.taskKnight.rest.authentication.dto.RegistrationRequestDTO;
 import com.nonfallable.taskKnight.rest.authentication.dto.RegistrationResponseDTO;
-import com.nonfallable.taskKnight.rest.errorhandling.dto.ApiErrorDTO;
+import com.nonfallable.taskKnight.rest.dto.ApiErrorDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -7,3 +7,9 @@ databaseChangeLog:
       file: db/changelog/scheme/2-addConfirmation.yaml
   - include:
       file: db/changelog/scheme/3-addPasswordChanging.yml
+  - include:
+      file: db/changelog/scheme/4-addTasks.yml
+  - include:
+      file: db/changelog/scheme/5-createProfileIndexes.yaml
+  - include:
+      file: db/changelog/scheme/6-createTaskIndex.yaml

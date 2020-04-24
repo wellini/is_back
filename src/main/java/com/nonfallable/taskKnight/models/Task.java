@@ -31,11 +31,11 @@ public class Task {
     @JoinColumn(name = "profile_id")
     private Profile author;
 
-    @Column(name = "create_at")
-    private ZonedDateTime createdAt;
+    @Column(name = "created_at")
+    private ZonedDateTime createdAt = ZonedDateTime.now();
 
     @Column(name = "updated_at")
-    private ZonedDateTime updatedAt;
+    private ZonedDateTime updatedAt = ZonedDateTime.now();
 
     public UUID getId() {
         return id;

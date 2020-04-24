@@ -1,4 +1,4 @@
-package com.nonfallable.taskKnight.rest.errorhandling.dto;
+package com.nonfallable.taskKnight.rest.dto;
 
 public class ApiErrorDTO {
 

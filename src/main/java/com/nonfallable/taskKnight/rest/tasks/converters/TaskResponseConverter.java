@@ -2,11 +2,11 @@ package com.nonfallable.taskKnight.rest.tasks.converters;
 
 import com.nonfallable.taskKnight.models.Task;
 import com.nonfallable.taskKnight.rest.tasks.dto.TaskResponseDTO;
-import com.nonfallable.taskKnight.utils.converters.RequestDtoConverter;
+import com.nonfallable.taskKnight.utils.converters.FromDomainConverter;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TaskConverterRequest extends RequestDtoConverter<TaskResponseDTO, Task> {
+public class TaskResponseConverter extends FromDomainConverter<TaskResponseDTO, Task> {
 
     @Override
     public TaskResponseDTO fromDomain(Task task) {

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public abstract class ResponseDtoConverter<DTO, DOMAIN>  {
+public abstract class ToDomainConverter<DTO, DOMAIN>  {
 
     public abstract DOMAIN toDomain(DTO dto);
 

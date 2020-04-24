@@ -1,23 +1,27 @@
 package com.nonfallable.taskKnight.utils.converters;
 
+import com.nonfallable.taskKnight.rest.dto.PageDTO;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public abstract class RequestDtoConverter<DTO, DOMAIN> {
+public abstract class FromDomainConverter<DTO, DOMAIN> {
 
     public abstract DTO fromDomain(DOMAIN domain);
 
 
 
-    public Page<DTO> fromDomain(Page<DOMAIN> page) {
-        return new PageImpl<>(
+    public PageDTO<DTO> fromDomain(Page<DOMAIN> page) {
+        Pageable pageable = page.getPageable();
+        return new PageDTO<>(
                 this.fromDomain(page.get()).collect(Collectors.toList()),
-                page.getPageable(),
-                page.getTotalElements()
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                page.getTotalElements(),
+                page.getTotalPages()
         );
     }
 

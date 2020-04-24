@@ -1,0 +1,15 @@
+databaseChangeLog:
+  - changeSet:
+      id: 5
+      author: Alexander Plotnikov <i4iksy@yahoo.com>
+      changes:
+        - createIndex:
+            catalogName: public
+            indexName: idx_email
+            unique: true
+            tableName: profile
+            schemaName: public
+            columns:
+              - column:
+                  name: email
+            clustered: true

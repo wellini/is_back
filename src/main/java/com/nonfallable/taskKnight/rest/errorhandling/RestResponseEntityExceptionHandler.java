@@ -3,7 +3,7 @@ package com.nonfallable.taskKnight.rest.errorhandling;
 import com.nonfallable.taskKnight.exceptions.ManagedException;
 import com.nonfallable.taskKnight.exceptions.NotFoundException;
 import com.nonfallable.taskKnight.security.ManagedSecurityException;
-import com.nonfallable.taskKnight.rest.errorhandling.dto.ApiErrorDTO;
+import com.nonfallable.taskKnight.rest.dto.ApiErrorDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
