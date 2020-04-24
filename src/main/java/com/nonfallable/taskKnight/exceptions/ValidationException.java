@@ -1,6 +1,6 @@
 package com.nonfallable.taskKnight.exceptions;
 
-public class ValidationException extends TraceKeeperException {
+public class ValidationException extends ManagedException {
 
     public ValidationException(String explanation) {
         super(explanation);

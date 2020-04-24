@@ -22,7 +22,7 @@ public class JwtUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Profile profile = profileRepository
                 .findByEmail(username)
-                .orElseThrow(() -> new SecurityException("No user with provided username"));
+                .orElseThrow(() -> new ManagedSecurityException("No user with provided username"));
         return profileToUserDetailsConverter.toUserDetails(profile);
     }
 }

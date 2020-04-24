@@ -54,7 +54,7 @@ public class JwtUtils {
                     .setExpiredAt(getExpiredAt(decoded))
                     .setSubject(decoded.getSubject());
         } catch (JWTVerificationException ex) {
-            throw new SecurityException("JWT token is invalid", ex);
+            throw new ManagedSecurityException("JWT token is invalid", ex);
         }
     }
 

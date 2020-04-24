@@ -4,6 +4,9 @@ target/
 !**/src/main/**
 !**/src/test/**
 .env
+.env.example
+.idea/
+logs/
 
 ### STS ###
 .apt_generated

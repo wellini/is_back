@@ -8,12 +8,15 @@ import com.nonfallable.taskKnight.rest.authentication.dto.ConfirmationCodeReques
 import com.nonfallable.taskKnight.rest.authentication.dto.ConfirmationCodeResponseDTO;
 import com.nonfallable.taskKnight.rest.authentication.dto.RegistrationRequestDTO;
 import com.nonfallable.taskKnight.rest.authentication.dto.RegistrationResponseDTO;
+import com.nonfallable.taskKnight.rest.errorhandling.dto.ApiErrorDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -59,5 +62,10 @@ public class AuthenticationFlowController {
     @PostMapping("/1.0/change-password/confirm/{token}")
     public ResponseEntity<ConfirmationCodeResponseDTO> confirmPasswordChanging(@PathVariable UUID token, @RequestBody ConfirmationCodeRequestDTO requestDTO) {
         return changePasswordRestFacade.confirmPasswordChanging(token, requestDTO);
+    }
+
+    @RequestMapping("/1.0/access-denied")
+    public ResponseEntity<ApiErrorDTO> accessDenied() {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ApiErrorDTO().setMessage("Unauthorized"));
     }
 }
