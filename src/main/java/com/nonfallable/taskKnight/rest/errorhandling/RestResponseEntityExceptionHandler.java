@@ -2,6 +2,7 @@ package com.nonfallable.taskKnight.rest.errorhandling;
 
 import com.nonfallable.taskKnight.exceptions.ManagedException;
 import com.nonfallable.taskKnight.exceptions.NotFoundException;
+import com.nonfallable.taskKnight.exceptions.ValidationException;
 import com.nonfallable.taskKnight.security.ManagedSecurityException;
 import com.nonfallable.taskKnight.rest.dto.ApiErrorDTO;
 import org.slf4j.Logger;
@@ -36,6 +37,12 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     public ResponseEntity<ApiErrorDTO> handleNotFoundException(NotFoundException ex, WebRequest request) {
         logger.error("RestResponseEntityExceptionHandler", ex);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiErrorDTO().setMessage(ex.getExplanation()));
+    }
+
+    @ExceptionHandler(value = {ValidationException.class})
+    public ResponseEntity<ApiErrorDTO> handleValidationException(ValidationException ex, WebRequest request) {
+        logger.error("RestResponseEntityExceptionHandler", ex);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiErrorDTO().setMessage(ex.getExplanation()));
     }
 
     @ExceptionHandler(value = {RuntimeException.class})
