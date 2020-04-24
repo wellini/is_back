@@ -1,3 +1,5 @@
+# TODO: 24.04.2020 Сделать уникальный индекс для profile.email
+# TODO: 24.04.2020 Сделать уникальный индекс для task.profile_id
 databaseChangeLog:
   - include:
       file: db/changelog/scheme/1-initial.yaml
