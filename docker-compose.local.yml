@@ -15,8 +15,10 @@ services:
       MAIL_PORT: ${MAIL_PORT}
       MAIL_USER: ${MAIL_USER}
       MAIL_PASSWORD: ${MAIL_PASSWORD}
+      LOGS_DESTINATION: /var/logs
     volumes:
       - m2:/root/.m2/repository
+      - ./logs/:/var/logs
   postgres:
     image: postgres:10.9-alpine
     ports:

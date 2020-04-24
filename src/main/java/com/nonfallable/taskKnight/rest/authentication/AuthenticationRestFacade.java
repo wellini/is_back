@@ -4,7 +4,7 @@ import com.nonfallable.taskKnight.models.Profile;
 import com.nonfallable.taskKnight.repositories.ProfileRepository;
 import com.nonfallable.taskKnight.rest.authentication.dto.AuthenticationRequestDTO;
 import com.nonfallable.taskKnight.rest.authentication.dto.AuthenticationResponseDTO;
-import com.nonfallable.taskKnight.rest.authentication.exceptions.BadCredentialsSecurityException;
+import com.nonfallable.taskKnight.rest.authentication.exceptions.BadCredentialsManagedSecurityException;
 import com.nonfallable.taskKnight.security.AccessToken;
 import com.nonfallable.taskKnight.security.JwtUtils;
 import com.nonfallable.taskKnight.security.converters.ProfileToUserDetailsConverter;
@@ -59,7 +59,8 @@ public class AuthenticationRestFacade {
     }
 
     public ResponseEntity<AuthenticationResponseDTO> login(AuthenticationRequestDTO requestDTO) {
-        Profile userProfile = profileRepository.findByEmail(requestDTO.getLogin()).get();
+        Profile userProfile = profileRepository.findByEmail(requestDTO.getLogin())
+                .orElseThrow(() -> new BadCredentialsManagedSecurityException());
         List<Permission> permissions = permissionsService.getPermissionsByRole(userProfile.getRole());
 
         authenticate(requestDTO.getLogin(), requestDTO.getPassword(), permissions);
@@ -92,7 +93,7 @@ public class AuthenticationRestFacade {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login, password, permissions));
         } catch (BadCredentialsException ex) {
-            throw new BadCredentialsSecurityException("Login or password are incorrect", ex);
+            throw new BadCredentialsManagedSecurityException(ex);
         }
     }
 }

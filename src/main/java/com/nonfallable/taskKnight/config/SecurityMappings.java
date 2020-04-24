@@ -10,6 +10,7 @@ public class SecurityMappings extends AbstractHttpConfigurer<SecurityMappings, H
     public void init(HttpSecurity builder) throws Exception {
         builder.authorizeRequests()
                 // Authentication & authorization
+                .antMatchers("/1.0/access-denied").permitAll()
                 .antMatchers("/1.0/login").permitAll()
                 .antMatchers("/1.0/registration").permitAll()
                 .antMatchers("/1.0/registration/confirm/**").authenticated()
