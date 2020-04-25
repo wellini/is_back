@@ -22,4 +22,9 @@ public interface ProfileRepository extends JpaRepository<Profile, UUID> {
     @QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value = "3000")})
     @Transactional(propagation = Propagation.MANDATORY)
     Optional<Profile> findAndLockByEmail(String email);
+
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value = "3000")})
+    @Transactional(propagation = Propagation.MANDATORY)
+    Optional<Profile> findAndLockById(UUID id);
 }

@@ -18,7 +18,9 @@ public enum PermissionMapping {
     READ_ALL_PROFILES(Role.ADMIN),
     READ_OWN_PROFILE(Role.ADMIN, Role.USER),
     UPDATE_OWN_PROFILE(Role.ADMIN, Role.USER),
-    DELETE_OWN_PROFILE(Role.ADMIN, Role.USER);
+    UPDATE_ALL_PROFILES(Role.ADMIN),
+    DELETE_OWN_PROFILE(Role.ADMIN, Role.USER),
+    DELETE_ALL_PROFILES(Role.ADMIN);
 
     private static Map<Role, List<PermissionMapping>> permissionsByRole = new HashMap<>();
     static {

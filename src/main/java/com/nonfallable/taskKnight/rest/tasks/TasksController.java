@@ -12,7 +12,6 @@ import com.nonfallable.taskKnight.rest.tasks.dto.TaskRequestDTO;
 import com.nonfallable.taskKnight.rest.tasks.dto.TaskResponseDTO;
 import com.nonfallable.taskKnight.rest.tasks.validators.SaveTaskRequestValidator;
 import com.nonfallable.taskKnight.services.ProfileService;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
