@@ -1,5 +1,7 @@
 package com.nonfallable.taskKnight.config;
 
+import com.nonfallable.taskKnight.rest.errorhandling.DefaultAccessDeniedHandler;
+import com.nonfallable.taskKnight.rest.errorhandling.DefaultAuthenticationEntryPoint;
 import com.nonfallable.taskKnight.security.JwtRequestFilter;
 import com.nonfallable.taskKnight.security.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import static com.nonfallable.taskKnight.config.SecurityMappings.securityMappings;
@@ -30,6 +33,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
+                .exceptionHandling()
+                    .authenticationEntryPoint(authenticationEntryPoint())
+                    .accessDeniedHandler(accessDeniedHandler()).and()
                 .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
@@ -50,5 +56,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
+    }
+
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler(){
+        return new DefaultAccessDeniedHandler();
+    }
+
+    @Bean
+    public DefaultAuthenticationEntryPoint authenticationEntryPoint(){
+        return new DefaultAuthenticationEntryPoint();
     }
 }
