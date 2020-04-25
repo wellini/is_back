@@ -18,8 +18,8 @@ public abstract class FromDomainConverter<DTO, DOMAIN> {
         Pageable pageable = page.getPageable();
         return new PageDTO<>(
                 this.fromDomain(page.get()).collect(Collectors.toList()),
-                pageable.getPageNumber(),
                 pageable.getPageSize(),
+                pageable.getPageNumber(),
                 page.getTotalElements(),
                 page.getTotalPages()
         );

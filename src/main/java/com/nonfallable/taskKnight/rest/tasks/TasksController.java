@@ -13,6 +13,7 @@ import com.nonfallable.taskKnight.rest.tasks.dto.TaskResponseDTO;
 import com.nonfallable.taskKnight.rest.tasks.validators.SaveTaskRequestValidator;
 import com.nonfallable.taskKnight.services.ProfileService;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -46,7 +47,7 @@ public class TasksController {
     }
 
     @GetMapping("/1.0/listTasks")
-    public ResponseEntity<PageDTO<TaskResponseDTO>> listTasks(Pageable pageable) {
+    public ResponseEntity<PageDTO<TaskResponseDTO>> listTasks(@PageableDefault Pageable pageable) {
         Profile author = profileService.getAuthorizedUserProfile();
         return ok(taskConverter.fromDomain(taskRepository.findByAuthor(author, pageable)));
     }
