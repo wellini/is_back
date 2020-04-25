@@ -27,10 +27,11 @@ public class SecurityMappings extends AbstractHttpConfigurer<SecurityMappings, H
                 // Profiles
                 .antMatchers("/1.0/listProfiles").hasAuthority("READ_ALL_PROFILES")
                 .antMatchers("/1.0/getProfile/**").hasAuthority("READ_ALL_PROFILES")
-                // TODO: Add endpoint '/1.0/getMyProfile' to API
-                .antMatchers("/1.0/getMyProfile").hasAuthority("READ_OWN_PROFILE")
-                .antMatchers("/1.0/updateProfile/**").hasAuthority("UPDATE_OWN_PROFILE")
-                .antMatchers("/1.0/deleteProfile/**").hasAuthority("DELETE_OWN_PROFILE")
+                .antMatchers("/1.0/iam").hasAuthority("READ_OWN_PROFILE")
+                .antMatchers("/1.0/updateMyProfile").hasAuthority("UPDATE_OWN_PROFILE")
+                .antMatchers("/1.0/updateProfile/**").hasAuthority("UPDATE_ALL_PROFILES")
+                .antMatchers("/1.0/deleteMyProfile").hasAuthority("DELETE_OWN_PROFILE")
+                .antMatchers("/1.0/deleteProfile/**").hasAuthority("DELETE_ALL_PROFILES")
                 .anyRequest().authenticated();
     }
 
