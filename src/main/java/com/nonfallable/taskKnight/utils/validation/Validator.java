@@ -1,4 +1,4 @@
-package com.nonfallable.taskKnight.utils;
+package com.nonfallable.taskKnight.utils.validation;
 
 import com.nonfallable.taskKnight.exceptions.ValidationException;
 
