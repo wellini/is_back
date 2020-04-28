@@ -20,9 +20,7 @@ import com.nonfallable.taskKnight.security.permissions.PermissionsService;
 import com.nonfallable.taskKnight.services.ConfirmationByEmailService;
 import com.nonfallable.taskKnight.services.ConfirmationTokenService;
 import com.nonfallable.taskKnight.utils.DateTimeUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -44,18 +42,16 @@ public class RegistrationRestFacade {
     private RegistrationRequestToProfileConverter registrationRequestToProfileConverter;
     private RegistrationRequestValidator registrationRequestValidator;
     private ConfirmationCodeRequestRequestValidator confirmationCodeRequestRequestValidator;
-    private AuthenticationManager authenticationManager;
     private PermissionsService permissionsService;
     private JwtUtils jwtUtils;
     private ConfirmationByEmailService confirmationByEmailService;
 
-    public RegistrationRestFacade(ConfirmationTokenService confirmationTokenService, ProfileRepository profileRepository, RegistrationRequestToProfileConverter registrationRequestToProfileConverter, RegistrationRequestValidator registrationRequestValidator, ConfirmationCodeRequestRequestValidator confirmationCodeRequestRequestValidator, AuthenticationManager authenticationManager, PermissionsService permissionsService, JwtUtils jwtUtils, ConfirmationByEmailService confirmationByEmailService) {
+    public RegistrationRestFacade(ConfirmationTokenService confirmationTokenService, ProfileRepository profileRepository, RegistrationRequestToProfileConverter registrationRequestToProfileConverter, RegistrationRequestValidator registrationRequestValidator, ConfirmationCodeRequestRequestValidator confirmationCodeRequestRequestValidator, PermissionsService permissionsService, JwtUtils jwtUtils, ConfirmationByEmailService confirmationByEmailService) {
         this.confirmationTokenService = confirmationTokenService;
         this.profileRepository = profileRepository;
         this.registrationRequestToProfileConverter = registrationRequestToProfileConverter;
         this.registrationRequestValidator = registrationRequestValidator;
         this.confirmationCodeRequestRequestValidator = confirmationCodeRequestRequestValidator;
-        this.authenticationManager = authenticationManager;
         this.permissionsService = permissionsService;
         this.jwtUtils = jwtUtils;
         this.confirmationByEmailService = confirmationByEmailService;
@@ -70,7 +66,8 @@ public class RegistrationRestFacade {
         confirmationByEmailService.sendConfirmationCode(confirmationToken, profile.getEmail());
         AccessToken accessToken = jwtUtils.generateToken(profile);
         List<Permission> permissions = permissionsService.getPermissionsByRole(profile.getRole());
-        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(profile.getEmail(), profile.getPassword(), permissions));
+        SecurityContextHolder.getContext()
+                .setAuthentication(new UsernamePasswordAuthenticationToken(profile.getEmail(), profile.getPassword(), permissions));
         RegistrationResponseDTO registrationResponseDTO = new RegistrationResponseDTO()
                 .setLogin(profile.getEmail())
                 .setConfirmationToken(confirmationToken.getId().toString())

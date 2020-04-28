@@ -5,6 +5,7 @@ import com.nonfallable.taskKnight.repositories.ProfileRepository;
 import com.nonfallable.taskKnight.rest.authentication.dto.AuthenticationRequestDTO;
 import com.nonfallable.taskKnight.rest.authentication.dto.AuthenticationResponseDTO;
 import com.nonfallable.taskKnight.rest.authentication.exceptions.BadCredentialsManagedSecurityException;
+import com.nonfallable.taskKnight.rest.authentication.validators.AuthenticationRequestValidator;
 import com.nonfallable.taskKnight.security.AccessToken;
 import com.nonfallable.taskKnight.security.JwtUtils;
 import com.nonfallable.taskKnight.security.converters.ProfileToUserDetailsConverter;
@@ -41,6 +42,9 @@ public class AuthenticationRestFacade {
     private PermissionsService permissionsService;
 
     @Autowired
+    private AuthenticationRequestValidator authenticationRequestValidator;
+
+    @Autowired
     private JwtUtils jwtUtils;
 
     public ResponseEntity<AuthenticationResponseDTO> auth(HttpServletRequest request) {
@@ -59,6 +63,7 @@ public class AuthenticationRestFacade {
     }
 
     public ResponseEntity<AuthenticationResponseDTO> login(AuthenticationRequestDTO requestDTO) {
+        authenticationRequestValidator.validate(requestDTO);
         Profile userProfile = profileRepository.findByEmail(requestDTO.getLogin())
                 .orElseThrow(() -> new BadCredentialsManagedSecurityException());
         List<Permission> permissions = permissionsService.getPermissionsByRole(userProfile.getRole());

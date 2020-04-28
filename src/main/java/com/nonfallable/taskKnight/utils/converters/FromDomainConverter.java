@@ -12,8 +12,6 @@ public abstract class FromDomainConverter<DTO, DOMAIN> {
 
     public abstract DTO fromDomain(DOMAIN domain);
 
-
-
     public PageDTO<DTO> fromDomain(Page<DOMAIN> page) {
         Pageable pageable = page.getPageable();
         return new PageDTO<>(
