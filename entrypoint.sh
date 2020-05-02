@@ -6,4 +6,5 @@ mvn -Ddocker.env.postgres.jdbc.url=jdbc:postgresql://postgres:5432/${POSTGRES_US
     -Ddocker.env.mail.port=${MAIL_PORT} \
     -Ddocker.env.mail.user=${MAIL_USER} \
     -Ddocker.env.mail.password=${MAIL_PASSWORD} \
+    -Ddocker.env.liquibase.context=${LIQUIBASE_CONTEXT} \
     spring-boot:run

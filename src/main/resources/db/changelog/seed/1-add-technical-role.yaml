@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1-add-technical-role
+      author: Alexander Plotnikov <i4iksy@yahoo.com>
+      context: dev
+      runAlways: true
+      runOnChange: true
+      loadUpdateData:
+          primaryKey: id
+          tableName: profile
+          file: csv/ProfileTechnicalRole.csv
+          separator: ';'
+          quotchar: '"'
+          relativeToChangelogFile: true
