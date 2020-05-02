@@ -13,3 +13,5 @@ databaseChangeLog:
       file: db/changelog/scheme/5-createProfileIndexes.yaml
   - include:
       file: db/changelog/scheme/6-createTaskIndex.yaml
+  - include:
+      file: db/changelog/seed/1-add-technical-role.yaml

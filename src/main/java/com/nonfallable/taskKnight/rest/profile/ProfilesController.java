@@ -91,7 +91,7 @@ public class ProfilesController {
     @DeleteMapping("/1.0/deleteMyProfile")
     public ResponseEntity<ApiSuccessDTO> deleteMyProfile() {
         Profile authorizedUserProfile = profileService.getAuthorizedUserProfile();
-        profileRepository.delete(authorizedUserProfile);
+        profileService.completeDeletion(authorizedUserProfile);
         return ok(new ApiSuccessDTO().setMessage("Success deletion"));
     }
 
@@ -99,7 +99,7 @@ public class ProfilesController {
     public ResponseEntity<ApiSuccessDTO> deleteMyProfile(@PathVariable UUID profileId) {
         Profile profile = profileRepository.findAndLockById(profileId)
                 .orElseThrow(() -> new NotFoundException("Profile not found"));
-        profileRepository.delete(profile);
+        profileService.completeDeletion(profile);
         return ok(new ApiSuccessDTO().setMessage("Success deletion"));
     }
 }

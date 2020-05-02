@@ -26,6 +26,7 @@
 		<docker.env.mail.port></docker.env.mail.port>
 		<docker.env.mail.user></docker.env.mail.user>
 		<docker.env.mail.password></docker.env.mail.password>
+		<docker.env.liquibase.context>dev</docker.env.liquibase.context>
 	</properties>
 
 	<dependencies>

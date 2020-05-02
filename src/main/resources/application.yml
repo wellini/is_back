@@ -32,3 +32,6 @@ docker:
 jwt:
   secret: @jwt.secret@
   lifeTimeInDays: @jwt.lifeTimeInDays@
+
+liquibase:
+  contexts: @docker.env.liquibase.context@
