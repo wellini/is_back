@@ -27,4 +27,6 @@ public interface TaskRepository extends JpaRepository<Task, UUID> {
     @QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value = "1000")})
     @Transactional(propagation = Propagation.MANDATORY)
     Optional<Task> findAndLockByIdAndAuthor(UUID id, Profile author);
+
+    void deleteAllByAuthor(Profile author);
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.LockModeType;
 import javax.persistence.QueryHint;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -17,4 +18,8 @@ public interface ConfirmationTokenRepository extends JpaRepository<ConfirmationT
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value = "3000")})
     Optional<ConfirmationToken> findAndLockById(UUID id);
+
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value = "3000")})
+    List<ConfirmationToken> findAndLockAllBySubject(String subject);
 }
