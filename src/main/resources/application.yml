@@ -3,6 +3,8 @@ server:
     context-path: /api
 
 spring:
+  main:
+    banner-mode: "off"
   datasource:
     url: @docker.env.postgres.jdbc.url@
     username: @docker.env.postgres.user@
