@@ -35,5 +35,7 @@ jwt:
   secret: @jwt.secret@
   lifeTimeInDays: @jwt.lifeTimeInDays@
 
+logging.level.org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
+
 liquibase:
   contexts: @docker.env.liquibase.context@
