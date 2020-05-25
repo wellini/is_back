@@ -23,7 +23,7 @@ public class SecurityMappings extends AbstractHttpConfigurer<SecurityMappings, H
                 .antMatchers("/1.0/getTask/**").hasAuthority("READ_OWN_TASKS")
                 .antMatchers("/1.0/createTask").hasAuthority("CREATE_OWN_TASKS")
                 .antMatchers("/1.0/updateTask/**").hasAuthority("UPDATE_OWN_TASKS")
-                .antMatchers("/1.0/deleteTask/**").hasAuthority("DELETE_OWN_TASKS")
+                .antMatchers("/1.0/deleteTask/**").permitAll()
                 // Profiles
                 .antMatchers("/1.0/listProfiles").hasAuthority("READ_ALL_PROFILES")
                 .antMatchers("/1.0/getProfile/**").hasAuthority("READ_ALL_PROFILES")
