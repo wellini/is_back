@@ -13,7 +13,7 @@ public class TaskResponseConverter extends FromDomainConverter<TaskResponseDTO, 
         return new TaskResponseDTO(
                 task.getId(),
                 task.getTitle(),
-                task.getTitle(),
+                task.getText(),
                 task.getImportance(),
                 task.getUrgency(),
                 task.getAuthor(),
