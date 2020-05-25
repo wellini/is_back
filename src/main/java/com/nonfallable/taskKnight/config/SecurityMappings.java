@@ -31,8 +31,7 @@ public class SecurityMappings extends AbstractHttpConfigurer<SecurityMappings, H
                 .antMatchers("/1.0/updateMyProfile").hasAuthority("UPDATE_OWN_PROFILE")
                 .antMatchers("/1.0/updateProfile/**").hasAuthority("UPDATE_ALL_PROFILES")
                 .antMatchers("/1.0/deleteMyProfile").hasAuthority("DELETE_OWN_PROFILE")
-                .antMatchers("/1.0/deleteProfile/**").hasAuthority("DELETE_ALL_PROFILES")
-                .anyRequest().authenticated();
+                .antMatchers("/1.0/deleteProfile/**").hasAuthority("DELETE_ALL_PROFILES");
     }
 
     public static SecurityMappings securityMappings() {
