@@ -66,6 +66,6 @@ public class AuthenticationFlowController {
 
     @RequestMapping("/1.0/access-denied")
     public ResponseEntity<ApiErrorDTO> accessDenied() {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ApiErrorDTO().setMessage("Unauthorized"));
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ApiErrorDTO().setMessage("Unauthorized-/1.0/access-denied"));
     }
 }

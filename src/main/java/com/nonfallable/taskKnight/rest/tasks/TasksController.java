@@ -69,7 +69,7 @@ public class TasksController {
         return ok(taskConverter.fromDomain(taskRepository.save(task)));
     }
 
-    @PutMapping("/1.0/updateTask/{taskId}")
+    @PostMapping("/1.0/updateTask/{taskId}")
     @Transactional
     public ResponseEntity<TaskResponseDTO> updateTask(@PathVariable UUID taskId, @RequestBody TaskRequestDTO dto) {
         Profile author = profileService.getAuthorizedUserProfile();
@@ -83,7 +83,7 @@ public class TasksController {
         return ok(taskConverter.fromDomain(taskRepository.save(task)));
     }
 
-    @DeleteMapping("/1.0/deleteTask/{taskId}")
+    @PostMapping("/1.0/deleteTask/{taskId}")
     @Transactional
     public ResponseEntity<ApiSuccessDTO> deleteTask(@PathVariable UUID taskId) {
         Profile author = profileService.getAuthorizedUserProfile();
