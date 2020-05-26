@@ -1,4 +1,4 @@
-mvn -Ddocker.env.postgres.jdbc.url=jdbc:postgresql://postgres:5432/${POSTGRES_USER} \
+mvn -Ddocker.env.postgres.jdbc.url=${JDBC_URL} \
     -Ddocker.env.postgres.user=${POSTGRES_USER} \
     -Ddocker.env.postgres.password=${POSTGRES_PASSWORD} \
     -Ddocker.env.mail.enable=${MAIL_ENABLE} \
